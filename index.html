@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Book a Room</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="booking-page">
+  <div class="container">
+    <h1 class="title">Hotel Reservation System</h1>
+    <div class="card">
+      <h2>Book Your Stay</h2>
+      <form action="/book" method="POST">
+        <input type="text" name="name" placeholder="Full Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" name="phone" placeholder="Phone" required>
+        <input type="text" name="address" placeholder="Address (optional)">
+        <input type="text" name="id_proof" placeholder="ID Proof (optional)">
+        <select name="room_type" required>
+          <option value="">Select Room Type</option>
+          <option value="Single">Single</option>
+          <option value="Double">Double</option>
+          <option value="Suite">Suite</option>
+        </select>
+        <input type="date" name="check_in" required>
+        <input type="date" name="check_out" required>
+        <textarea name="special_request" placeholder="Special Requests (optional)"></textarea>
+        <button type="submit" class="btn-primary">Book Now</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
+
+templates/payment.html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Payment</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="payment-page">
+  <div class="container">
+    <h1 class="title">Payment Details</h1>
+    <div class="card">
+      <p><strong>Guest:</strong> {{ booking.name }}</p>
+      <p><strong>Amount:</strong> ₹{{ booking.price }}</p>
+      <form action="/process_payment" method="POST">
+        <input type="hidden" name="booking_id" value="{{ booking.booking_id }}">
+        <select name="method" required>
+          <option value="">Select Payment Method</option>
+          <option value="Credit Card">Credit Card</option>
+          <option value="Cash">Cash</option>
+          <option value="Online">Online</option>
+        </select>
+        <input type="text" name="transaction_id" placeholder="Transaction ID (optional)">
+        <button type="submit" class="btn-success">Pay Now</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
+
+templates/success.html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Payment Status</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="status-page">
+  <div class="container">
+    <div class="card status-card">
+      <h1 class="status-title success">Payment Successful!</h1>
+      <p><strong>Booking ID:</strong> {{ booking_id }}</p>
+      <p><strong>Amount Paid:</strong> ₹{{ amount }}</p>
+      <p><strong>Payment Method:</strong> {{ method }}</p>
+      <a href="/bookings" class="btn-secondary">View All Bookings</a>
+    </div>
+  </div>
+</body>
+</html>
+
+templates/bookings.html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Booking Summary</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="summary-page">
+  <div class="container">
+    <h1 class="title">Booking Summary</h1>
+    <div class="card">
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Guest</th>
+          <th>Room</th>
+          <th>Check-In</th>
+          <th>Check-Out</th>
+          <th>Request</th>
+          <th>Price</th>
+        </tr>
+        {% for b in bookings %}
+        <tr>
+          <td>{{ b.booking_id }}</td>
+          <td>{{ b.name }}</td>
+          <td>{{ b.room_type }}</td>
+          <td>{{ b.check_in }}</td>
+          <td>{{ b.check_out }}</td>
+          <td>{{ b.special_request }}</td>
+          <td>₹{{ b.price }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      <p>Total Bookings: <strong>{{ bookings|length }}</strong></p>
+    </div>
+  </div>
+</body>
+</html>
+
+
+
+
+#css
+
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #f0f2f5;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+.container {
+  width: 90%;
+  max-width: 600px;
+  margin: 50px auto;
+  text-align: center;
+}
+
+.title {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-primary {
+  background: #3498db;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #2980b9;
+}
+
+.btn-success {
+  background: #27ae60;
+  color: white;
+}
+
+.btn-success:hover {
+  background: #1e8449;
+}
+
+.btn-secondary {
+  background: #8e44ad;
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 6px;
+  margin-top: 15px;
+}
+
+.btn-secondary:hover {
+  background: #732d91;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th {
+  background: #3498db;
+  color: white;
+  padding: 10px;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:nth-child(even) {
+  background: #f9f9f9;
+}

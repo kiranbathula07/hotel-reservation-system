@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment - LuxeHotel</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="nav-brand">
+      <i class="fa-solid fa-hotel"></i> LuxeHotel
+    </a>
+    <div class="nav-links">
+      <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="/bookings"><i class="fa-solid fa-list-check"></i> Bookings</a>
+    </div>
+  </nav>
+
+  <main class="main-wrapper">
+    <div class="container" style="max-width: 500px;">
+      <div class="card">
+        <h1 class="title">Payment Details</h1>
+        <p class="subtitle">Complete your transaction to confirm the reservation.</p>
+
+        <div class="payment-details">
+          <p><span><i class="fa-solid fa-user"></i> Guest Name:</span> <strong>{{ booking.name }}</strong></p>
+          <p><span><i class="fa-solid fa-money-bill-wave"></i> Amount Due:</span> <strong>₹{{ booking.price }}</strong></p>
+        </div>
+
+        <form action="/process_payment" method="POST" style="margin-top: 2rem;">
+          <input type="hidden" name="booking_id" value="{{ booking.booking_id }}">
+          
+          <div class="form-group" style="margin-bottom: 1.5rem;">
+            <label for="method">Select Payment Method</label>
+            <select id="method" name="method" required>
+              <option value="" disabled selected>Choose Method...</option>
+              <option value="Credit Card">Credit Card</option>
+              <option value="Debit Card">Debit Card</option>
+              <option value="UPI">UPI / Online</option>
+              <option value="Cash">Pay at Hotel</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 2rem;">
+            <label for="transaction_id">Transaction ID (If applicable)</label>
+            <input type="text" id="transaction_id" name="transaction_id" placeholder="e.g. TXN123456789">
+          </div>
+
+          <button type="submit" class="btn btn-success">
+            <i class="fa-solid fa-lock"></i> Make Secure Payment
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 LuxeHotel Reservations. All rights reserved.</p>
+  </footer>
+</body>
+</html>

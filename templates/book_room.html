@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Complete Booking - LuxeHotel</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="auth-page">
+  <nav class="navbar" style="position: absolute; width: 100%; top: 0; background: transparent; box-shadow: none;">
+    <a href="/" class="nav-brand" style="color: white; padding: 1rem 5%;">
+      <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+    </a>
+  </nav>
+
+  <main class="main-wrapper">
+    <div class="card auth-card" style="max-width: 600px;">
+      <h1 class="title">Complete Booking</h1>
+      <p class="subtitle" style="margin-bottom: 1rem;">You are booking a <strong>{{ room.room_type }} Room</strong> at ₹{{ room.price }}/night.</p>
+
+      <form action="/book_room/{{ room.room_id }}" method="POST">
+        <div class="form-grid">
+          <div class="form-group full-width" style="margin-bottom: 1rem;">
+            <label for="check_in">Check-in Date</label>
+            <input type="date" id="check_in" name="check_in" required>
+          </div>
+          
+          <div class="form-group full-width" style="margin-bottom: 1rem;">
+            <label for="check_out">Check-out Date</label>
+            <input type="date" id="check_out" name="check_out" required>
+          </div>
+          
+          <div class="form-group full-width" style="margin-bottom: 1.5rem;">
+            <label for="special_request">Special Requests (Optional)</label>
+            <textarea id="special_request" name="special_request" placeholder="Let us know if you need anything special for your stay..."></textarea>
+          </div>
+          
+          <div class="form-group full-width">
+            <button type="submit" class="btn btn-primary">
+              <i class="fa-solid fa-credit-card"></i> Proceed to Payment
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </main>
+</body>
+</html>

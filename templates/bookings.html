@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Bookings - LuxeHotel</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="nav-brand">
+      <i class="fa-solid fa-hotel"></i> LuxeHotel
+    </a>
+    <div class="nav-links">
+      <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="/bookings"><i class="fa-solid fa-list-check"></i> Bookings</a>
+    </div>
+  </nav>
+
+  <main class="main-wrapper" style="align-items: flex-start;">
+    <div class="container" style="max-width: 1000px;">
+      <div class="card">
+        <h1 class="title">Booking Summary</h1>
+        <p class="subtitle">Overview of all active reservations.</p>
+        
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Booking ID</th>
+                <th>Guest Name</th>
+                <th>Room Type</th>
+                <th>Check-In</th>
+                <th>Check-Out</th>
+                <th>Requests</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for b in bookings %}
+              <tr>
+                <td><strong>#{{ b.booking_id }}</strong></td>
+                <td>{{ b.name }}</td>
+                <td><span class="badge" style="background: var(--bg-color); color: var(--primary-color); border: 1px solid var(--border-color);">{{ b.room_type }}</span></td>
+                <td>{{ b.check_in }}</td>
+                <td>{{ b.check_out }}</td>
+                <td>{{ b.special_request or 'None' }}</td>
+                <td><strong>₹{{ b.price }}</strong></td>
+              </tr>
+              {% else %}
+              <tr>
+                <td colspan="7" style="text-align: center; padding: 3rem;">
+                  <i class="fa-solid fa-inbox" style="font-size: 3rem; color: var(--border-color); margin-bottom: 1rem; display: block;"></i>
+                  No bookings found.
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        
+        <div style="margin-top: 1.5rem; text-align: right; color: var(--text-light);">
+          Total Bookings: <strong style="color: var(--text-dark); font-size: 1.2rem;">{{ bookings|length }}</strong>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 LuxeHotel Reservations. All rights reserved.</p>
+  </footer>
+</body>
+</html>

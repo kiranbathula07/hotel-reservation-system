@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - LuxeHotel</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="nav-brand">
+      <i class="fa-solid fa-hotel"></i> LuxeHotel
+    </a>
+    <div class="nav-links">
+      <a href="/" style="color: var(--primary-color); background: var(--secondary-color);"><i class="fa-solid fa-house"></i> Dashboard</a>
+      <a href="/bookings"><i class="fa-solid fa-list-check"></i> My Bookings</a>
+      <a href="/logout" style="color: #ef4444;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    </div>
+  </nav>
+
+  <main class="main-wrapper" style="align-items: flex-start; flex-direction: column; padding-top: 2rem;">
+    <div class="container" style="max-width: 1200px; width: 100%;">
+      <div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: flex-end;">
+        <div>
+          <h1 class="title" style="text-align: left;">Welcome back, {{ name }}!</h1>
+          <p class="subtitle" style="text-align: left; margin-bottom: 0;">Select from our available rooms below to start your booking.</p>
+        </div>
+      </div>
+
+      <h2 style="margin-bottom: 1rem; color: var(--text-dark);">Available Rooms <span class="badge" style="background: var(--primary-color); color: white;">{{ rooms|length }}</span></h2>
+      <div class="room-grid">
+        {% for room in rooms %}
+        <div class="room-card">
+          <i class="fa-solid {{ 'fa-bed' if room.room_type == 'Single' else 'fa-user-group' if room.room_type == 'Double' else 'fa-crown' }}" style="font-size: 3rem; color: var(--text-light); margin-bottom: 1rem;"></i>
+          <h3>{{ room.room_type }} Room</h3>
+          <p class="room-price">₹{{ room.price }} <span style="font-size: 1rem; color: var(--text-light); font-weight: 500;">/ night</span></p>
+          <a href="/book_room/{{ room.room_id }}" class="btn btn-primary">Book Now</a>
+        </div>
+        {% else %}
+        <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 4rem 2rem;">
+          <i class="fa-solid fa-calendar-xmark" style="font-size: 3rem; color: var(--border-color); margin-bottom: 1rem;"></i>
+          <h3>No Rooms Available</h3>
+          <p style="color: var(--text-light);">We are currently fully booked. Please check back later.</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 LuxeHotel Reservations. All rights reserved.</p>
+  </footer>
+</body>
+</html>
